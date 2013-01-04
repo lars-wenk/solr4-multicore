@@ -1,4 +1,13 @@
 solr4-multicore
 ===============
 
-solr4 multicore puppet vagrant configuration
+Vagrant puppet configuration for create a solr4 multicore virtual box.
+
+<b>Install</b>
+
+vagrant up solr
+
+
+
+
+more description.. comming soon..
