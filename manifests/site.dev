@@ -7,12 +7,13 @@ node solr {
         active_cores => [ 'dev', 'staging', 'prod' ],
     }
 
-    solr::core { [ 'dev', 'staging', 'prod' ]:
+    ## EXAMPLE - multicore for cores with the same fields
+    solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
         fields      => [
-            {'name' => 'id',       'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
-            {'name' => 'title',        'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true', 'required' => 'true'},
-            {'name' => 'description',     'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true', 'required' => 'true'},
-            {'name' => 'color',    'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true', 'required' => 'true'},
+            {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
+            {'name' => 'title',      'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+            {'name' => 'description','type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+            {'name' => 'color',      'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
         ],
         copyfields  => [
             {'source' => 'id'},
@@ -27,4 +28,26 @@ node solr {
         ],
         require     => Exec['solr-install']
     }
+
+    ## EXAMPLE for a seperat field configuration for a another core!!
+    solr::core { [ 'shop2_dev' ]:
+            fields      => [
+                {'name' => 'id',             'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
+                {'name' => 'name',           'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+                {'name' => 'longdescription','type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+                {'name' => 'size',           'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+            ],
+            copyfields  => [
+                {'source' => 'id'},
+                {'source' => 'name'},
+                {'source' => 'longdescription'},
+                {'source' => 'size'},
+            ],
+            spellfields => [
+                {'source' => 'id'},
+                {'source' => 'name'},
+                {'source' => 'longdescription'},
+            ],
+            require     => Exec['solr-install']
+        }
 }
