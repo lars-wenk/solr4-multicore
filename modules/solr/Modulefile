@@ -1,0 +1,6 @@
+name    'solr'
+version '1.0.0'
+author  'Lars Wenk'
+license 'Apache2'
+summary 'Puppet module for solr'
+description 'This module installs and manages solr. Check README for details.'

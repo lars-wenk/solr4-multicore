@@ -1,0 +1,30 @@
+
+## SolrServer ##
+node solr {
+    class { "solr":
+        version => 'apache-solr-4.0.0',
+        install_source => 'http://apache.mirror.iphh.net/lucene/solr/4.0.0/apache-solr-4.0.0.tgz',
+        active_cores => [ 'dev', 'staging', 'prod' ],
+    }
+
+    solr::core { [ 'dev', 'staging', 'prod' ]:
+        fields      => [
+            {'name' => 'id',       'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
+            {'name' => 'title',        'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true', 'required' => 'true'},
+            {'name' => 'description',     'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true', 'required' => 'true'},
+            {'name' => 'color',    'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true', 'required' => 'true'},
+        ],
+        copyfields  => [
+            {'source' => 'id'},
+            {'source' => 'title'},
+            {'source' => 'description'},
+            {'source' => 'color'},
+        ],
+        spellfields => [
+            {'source' => 'id'},
+            {'source' => 'title'},
+            {'source' => 'description'},
+        ],
+        require     => Exec['solr-install']
+    }
+}
