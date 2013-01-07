@@ -15,16 +15,71 @@ At first download a ubuntu vagrant box at http://www.vagrantbox.es/ (for example
 
 Customize the Main-Configuration-File (you can also leave it as default).
 
-IP-Address, default is "192.168.40.44"
-Vagrant-Box, default is "ubuntu1204"
+<ul>
+    <li>IP-Address, default is "192.168.40.44"</li>
+    <li>Vagrant-Box, default is "ubuntu1204"</li>
+</ul>
 
 <i>/manifests/site.dev</i>
 
-version, default is "apache-solr-4.0.0"
-install_source, default is "http://apache.mirror.iphh.net/lucene/solr/4.0.0/apache-solr-4.0.0.tgz"
-cores, default is "dev,staging,prod"
+<ul>
+    <li>version, default is "apache-solr-4.0.0"</li>
+    <li>install_source, default is "http://apache.mirror.iphh.net/lucene/solr/4.0.0/apache-solr-4.0.0.tgz"</li>
+    <li>cores, default is "dev,staging,prod"</li>
+</ul>
 
-Configure the fields for schema.xml, the uniqueKey is "id".
+Define the cores and fields for schema.xml
+In this example this 3 cores using the same fields.
+
+<code>
+solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
+    fields      => [
+        {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
+        {'name' => 'title',      'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+        {'name' => 'description','type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+        {'name' => 'color',      'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+    ],
+    copyfields  => [
+        {'source' => 'id'},
+        {'source' => 'title'},
+        {'source' => 'description'},
+        {'source' => 'color'},
+    ],
+    spellfields => [
+        {'source' => 'id'},
+        {'source' => 'title'},
+        {'source' => 'description'},
+    ],
+    require     => Exec['solr-install']
+}
+</code>
+<i>copyfields</i> - for joining with the standard-search-field "text" as destination <br />
+<i>spellfields</i> - for joining with the autosuggest-search-field "spell" as destination<br /><br />
+
+For using cores with individual fields, copy / paste the "solr::core {}
+for example:
+
+<code>
+solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
+    fields      => [
+        {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
+        {'name' => 'title',      'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'false'},
+        ...
+    ],
+    ...
+}
+
+solr::core { [ 'shop2_dev', 'shop2_staging', 'shop2_prod' ]:
+    fields      => [
+        {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
+        {'name' => 'name',       'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'false'},
+        ...
+    ],
+    ...
+}
+
+</code>
+
 
 <b>Starting the box</b>
 
