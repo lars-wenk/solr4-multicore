@@ -29,9 +29,9 @@ Customize the Main-Configuration-File (you can also leave it as default).
 </ul>
 
 Define the cores and fields for schema.xml
-In this example this 3 cores using the same fields.
+This 3 cores using the same fields
 
-<code>
+```
 solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
     fields      => [
         {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
@@ -52,14 +52,15 @@ solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
     ],
     require     => Exec['solr-install']
 }
-</code>
+
+```
+
 <i>copyfields</i> - for joining with the standard-search-field "text" as destination <br />
 <i>spellfields</i> - for joining with the autosuggest-search-field "spell" as destination<br /><br />
 
-For using cores with individual fields, copy / paste the "solr::core {}
-for example:
+For using cores with individual fields:
 
-<code>
+```
 solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
     fields      => [
         {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
@@ -68,6 +69,7 @@ solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
     ],
     ...
 }
+
 
 solr::core { [ 'shop2_dev', 'shop2_staging', 'shop2_prod' ]:
     fields      => [
@@ -78,7 +80,7 @@ solr::core { [ 'shop2_dev', 'shop2_staging', 'shop2_prod' ]:
     ...
 }
 
-</code>
+```
 
 
 <b>Starting the box</b>
