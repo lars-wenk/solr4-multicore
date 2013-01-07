@@ -1,5 +1,7 @@
 
 ## SolrServer ##
+
+
 node solr {
     class { "solr":
         version => 'apache-solr-4.0.0',
@@ -29,25 +31,4 @@ node solr {
         require     => Exec['solr-install']
     }
 
-    ## EXAMPLE for a seperat field configuration for a another core!!
-    solr::core { [ 'shop2_dev' ]:
-            fields      => [
-                {'name' => 'id',             'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
-                {'name' => 'name',           'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
-                {'name' => 'longdescription','type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
-                {'name' => 'size',           'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
-            ],
-            copyfields  => [
-                {'source' => 'id'},
-                {'source' => 'name'},
-                {'source' => 'longdescription'},
-                {'source' => 'size'},
-            ],
-            spellfields => [
-                {'source' => 'id'},
-                {'source' => 'name'},
-                {'source' => 'longdescription'},
-            ],
-            require     => Exec['solr-install']
-        }
 }

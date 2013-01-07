@@ -5,7 +5,8 @@ class solr::install($solr_home,$version,$install_source) {
         command => "wget ${install_source}",
         cwd => "/home/vagrant/",
         creates => "/home/vagrant/${version}.tgz",
-        path => ["/usr/bin", "/usr/sbin/"]
+        path => ["/usr/bin", "/usr/sbin/"],
+        require => Service['tomcat6'],
     }
 
     exec { "solr-inflate":
@@ -16,14 +17,15 @@ class solr::install($solr_home,$version,$install_source) {
         require => Exec["solr-download"]
     }
 
-    exec { "solr-createdirectory":
-        command => "mkdir ${solr_home}",
-        cwd => "/home/vagrant/",
-        path => ["/usr/bin", "/usr/sbin/", "/bin/"],
+    file { "${solr_home}":
+        ensure  => "directory",
+        owner   => 'tomcat6',
+        group   => 'tomcat6',
+        mode    => '0755',
     }
 
     exec { "solr-install":
-        command => "cp -R apache-solr-4.0.0/example/multicore/bin ${solr_home}/bin | cp apache-solr-4.0.0/example/multicore/zoo.cfg ${solr_home}/ | cp -R apache-solr-4.0.0/example/webapps/solr.war ${solr_home}/",
+        command => "cp -R ${version}/example/multicore/bin ${solr_home}/bin | cp ${version}/example/multicore/zoo.cfg ${solr_home}/ | cp -R ${version}/example/webapps/solr.war ${solr_home}/",
         cwd => "/home/vagrant/",
         path => ["/usr/bin", "/usr/sbin/", "/bin"],
         require => Exec["solr-inflate"]
