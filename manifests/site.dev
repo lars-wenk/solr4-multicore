@@ -10,12 +10,12 @@ node solr {
     }
 
     ## EXAMPLE - multicore for cores with the same fields
-    solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
+    solr::core { [ 'dev', 'staging', 'prod' ]:
         fields      => [
             {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
             {'name' => 'title',      'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
             {'name' => 'description','type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
-            {'name' => 'color',      'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+            {'name' => 'color',      'type' => 'string',       'indexed' => 'false','stored' => 'true', 'multiValued' => 'true',  'required' => 'false'},
         ],
         copyfields  => [
             {'source' => 'id'},

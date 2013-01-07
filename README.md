@@ -4,6 +4,17 @@ solr4-multicore
 Vagrant puppet configuration for solr4 multicore with tomcat6 as a virtual box (currently UBUNTU ONLY).
 This solution includes also autocomplete configuration.
 
+<h2>Information</h2>
+
+<b>Requirement</b>
+- A virtual machine like "VirtualBox - Oracle" (www.virtualbox.org) <br />
+- The developer environment Vagrant (www.vagrantup.com) <br />
+
+<b>Documentation</b>
+Why puppet? and how it works? (http://docs.puppetlabs.com/)
+
+
+<h2>Installation and Configuration</h2>
 
 <b>No Ubuntu Box? Download it</b>
 
@@ -37,7 +48,7 @@ solr::core { [ 'dev', 'staging', 'prod' ]:
         {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
         {'name' => 'title',      'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
         {'name' => 'description','type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
-        {'name' => 'color',      'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
+        {'name' => 'color',      'type' => 'string',       'indexed' => 'false','stored' => 'true', 'multiValued' => 'true',  'required' => 'false'},
     ],
     copyfields  => [
         {'source' => 'id'},
