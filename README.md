@@ -1,7 +1,7 @@
 solr4-multicore
 ===============
 
-Vagrant puppet configuration for create a solr4 multicore virtual box (UBUNTU ONLY).
+Vagrant puppet configuration for solr4 multicore with tomcat6 as a virtual box (currently UBUNTU ONLY).
 This solution includes also autocomplete configuration.
 
 
@@ -28,11 +28,11 @@ Customize the Main-Configuration-File (you can also leave it as default).
     <li>cores, default is "dev,staging,prod"</li>
 </ul>
 
-Define the cores and fields for schema.xml
-This 3 cores using the same fields
+Define cores and fields for schema.xml
+This 3 cores (dev, staging, prod) using the same fields
 
 ```
-solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
+solr::core { [ 'dev', 'staging', 'prod' ]:
     fields      => [
         {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
         {'name' => 'title',      'type' => 'text_general', 'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'true'},
@@ -61,7 +61,7 @@ solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
 For using cores with individual fields:
 
 ```
-solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
+solr::core { [ 'shop1', 'shop2' ]:
     fields      => [
         {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
         {'name' => 'title',      'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'true',  'required' => 'false'},
@@ -70,8 +70,7 @@ solr::core { [ 'shop1_dev', 'shop1_staging', 'shop1_prod' ]:
     ...
 }
 
-
-solr::core { [ 'shop2_dev', 'shop2_staging', 'shop2_prod' ]:
+solr::core { [ 'shop3' ]:
     fields      => [
         {'name' => 'id',         'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'true'},
         {'name' => 'name',       'type' => 'string',       'indexed' => 'true', 'stored' => 'true', 'multiValued' => 'false', 'required' => 'false'},
@@ -86,5 +85,8 @@ solr::core { [ 'shop2_dev', 'shop2_staging', 'shop2_prod' ]:
 <b>Starting the box</b>
 
 vagrant up solr
+
+
+
 
 
